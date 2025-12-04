@@ -28,7 +28,6 @@
                 return;
             }
             
-            // 시간 순으로 정렬 (빠른 순)
             rankings.sort((a, b) => a.time - b.time);
             
             let html = '<div style="background: #f9f9f9; padding: 20px; border-radius: 10px;">';
@@ -52,6 +51,14 @@
         }
         
         function clearRanking() {
+            const currentUser = localStorage.getItem('currentUser');
+            
+            // 관리자 계정 확인
+            if (currentUser !== 'GISEOKGPT') {
+                alert('랭킹 초기화는 관리자만 가능합니다!');
+                return;
+            }
+            
             if (confirm('정말로 모든 랭킹을 삭제하시겠습니까?')) {
                 localStorage.removeItem('rankings');
                 alert('랭킹이 초기화되었습니다!');
@@ -59,7 +66,6 @@
             }
         }
         
-        // 페이지 로드 시 랭킹 표시
         window.onload = displayFullRanking;
     </script>
 </body>
