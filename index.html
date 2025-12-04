@@ -10,19 +10,25 @@
     <div class="container">
         <h1>🎯 Target Game</h1>
         
+        <!-- 로그인 전 화면 -->
         <div id="loginSection">
             <h2>로그인</h2>
             <input type="text" id="username" placeholder="닉네임 입력">
+            <input type="password" id="password" placeholder="비밀번호 입력">
             <button onclick="login()">로그인</button>
+            <button onclick="goToSignup()" style="background: #28a745;">회원가입</button>
+            <button onclick="goToRanking()" style="background: #ffc107; color: #333;">전체 랭킹 보기</button>
         </div>
 
+        <!-- 로그인 후 화면 -->
         <div id="mainSection" style="display: none;">
             <p>환영합니다, <span id="displayName"></span>님!</p>
             <button onclick="startGame()">게임 시작</button>
+            <button onclick="goToRanking()" style="background: #ffc107; color: #333;">전체 랭킹 보기</button>
             <button onclick="logout()">로그아웃</button>
             
-            <h2>🏆 랭킹</h2>
-            <div id="ranking">
+            <h2>🏆 내 최고 기록</h2>
+            <div id="myBestRecord">
                 <p>아직 기록이 없습니다.</p>
             </div>
         </div>

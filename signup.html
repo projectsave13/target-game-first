@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - Target Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 회원가입</h1>
+        
+        <div id="signupForm">
+            <input type="text" id="signupUsername" placeholder="닉네임 입력 (2-10자)">
+            <input type="password" id="signupPassword" placeholder="비밀번호 입력">
+            <input type="password" id="signupPasswordConfirm" placeholder="비밀번호 확인">
+            <button onclick="signup()">회원가입</button>
+            <button onclick="goToLogin()" style="background: #888;">로그인으로 돌아가기</button>
+        </div>
+    </div>
+
+    <script>
+        function signup() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+            
+            if (username.length < 2 || username.length > 10) {
+                alert('닉네임은 2-10자로 입력해주세요!');
+                return;
+            }
+            
+            if (password.length < 4) {
+                alert('비밀번호는 최소 4자 이상이어야 합니다!');
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                alert('비밀번호가 일치하지 않습니다!');
+                return;
+            }
+            
+            // 기존 사용자 정보 가져오기
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            
+            if (users[username]) {
+                alert('이미 존재하는 닉네임입니다!');
+                return;
+            }
+            
+            // 새 사용자 저장
+            users[username] = {
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            alert('회원가입 성공! 로그인 페이지로 이동합니다.');
+            window.location.href = 'index.html';
+        }
+        
+        function goToLogin() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

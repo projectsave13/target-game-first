@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랭킹 - Target Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 전체 랭킹</h1>
+        
+        <div id="rankingList">
+            <p>로딩 중...</p>
+        </div>
+        
+        <button onclick="goBack()">메인으로 돌아가기</button>
+        <button onclick="clearRanking()" style="background: #dc3545;">랭킹 초기화</button>
+    </div>
+
+    <script>
+        function displayFullRanking() {
+            const rankings = JSON.parse(localStorage.getItem('rankings') || '[]');
+            const rankingDiv = document.getElementById('rankingList');
+            
+            if (rankings.length === 0) {
+                rankingDiv.innerHTML = '<p>아직 기록이 없습니다.</p>';
+                return;
+            }
+            
+            // 시간 순으로 정렬 (빠른 순)
+            rankings.sort((a, b) => a.time - b.time);
+            
+            let html = '<div style="background: #f9f9f9; padding: 20px; border-radius: 10px;">';
+            html += '<h3>TOP 20 랭킹</h3>';
+            html += '<ol style="font-size: 18px; line-height: 2;">';
+            
+            rankings.slice(0, 20).forEach((record, index) => {
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+                html += `<li><strong>${record.name}</strong>: ${record.time.toFixed(2)}초 ${medal}</li>`;
+            });
+            
+            html += '</ol>';
+            html += `<p style="margin-top: 20px; color: #666;">총 ${rankings.length}개의 기록</p>`;
+            html += '</div>';
+            
+            rankingDiv.innerHTML = html;
+        }
+        
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+        
+        function clearRanking() {
+            if (confirm('정말로 모든 랭킹을 삭제하시겠습니까?')) {
+                localStorage.removeItem('rankings');
+                alert('랭킹이 초기화되었습니다!');
+                displayFullRanking();
+            }
+        }
+        
+        // 페이지 로드 시 랭킹 표시
+        window.onload = displayFullRanking;
+    </script>
+</body>
+</html>
